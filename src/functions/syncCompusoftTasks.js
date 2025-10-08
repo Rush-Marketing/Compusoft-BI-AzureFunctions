@@ -301,15 +301,16 @@ app.timer('syncCompusoftTasks', {
         try {
             context.log('Starting Compusoft Tasks sync');
 
-            // Calculate incremental date (yesterday)
-            const yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            yesterday.setHours(0, 0, 0, 0);
+            // FIRST RUN: Full load (comment out for incremental after first run)
+            context.log('FULL LOAD: fetching ALL records');
+            const records = await fetchIncrementalData(context, null);
 
-            context.log(`Incremental load: fetching records since ${yesterday.toISOString()}`);
-
-            // Fetch incremental data
-            const records = await fetchIncrementalData(context, yesterday);
+            // AFTER FIRST RUN: Uncomment below for incremental load
+            // const yesterday = new Date();
+            // yesterday.setDate(yesterday.getDate() - 1);
+            // yesterday.setHours(0, 0, 0, 0);
+            // context.log(`Incremental load: fetching records since ${yesterday.toISOString()}`);
+            // const records = await fetchIncrementalData(context, yesterday);
             logData.recordsProcessed = records.length;
             context.log(`Fetched ${records.length} records`);
 
