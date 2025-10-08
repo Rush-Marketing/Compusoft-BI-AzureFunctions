@@ -5,3 +5,9 @@ local.settings.json
 .env
 bin/
 obj/
+
+# Claude Code folder
+.claude/
+
+# Test files
+test-*.js
