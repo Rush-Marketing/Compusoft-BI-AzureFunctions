@@ -130,50 +130,50 @@ async function upsertRecords(context, pool, records) {
         for (const record of records) {
             const result = await transaction.request()
                 .input('PK_BITaskID', sql.Int, record.PK_BITaskID)
-                .input('FK_BICompanyID', sql.Int, record.FK_BICompanyID ?? null)
-                .input('FK_BIAlternativeID', sql.Int, record.FK_BIAlternativeID ?? null)
-                .input('ProjectID', sql.NVarChar, record.ProjectID ?? null)
-                .input('ProjectName', sql.NVarChar, record.ProjectName ?? null)
-                .input('DateStart', sql.DateTime2, record.DateStart ?? null)
-                .input('DateExpiration', sql.DateTime2, record.DateExpiration ?? null)
-                .input('TaskSubject', sql.NVarChar, record.TaskSubject ?? null)
-                .input('IsScheduled', sql.Bit, record.IsScheduled ?? null)
-                .input('TaskType', sql.Int, record.TaskType ?? null)
-                .input('TaskTypeName', sql.NVarChar, record.TaskTypeName ?? null)
-                .input('TaskStatus', sql.Int, record.TaskStatus ?? null)
-                .input('WithSales', sql.Bit, record.WithSales ?? null)
-                .input('NextSalesMeeting', sql.Bit, record.NextSalesMeeting ?? null)
-                .input('SalespersonLoginName', sql.NVarChar, record.SalespersonLoginName ?? null)
-                .input('SalespersonLastname', sql.NVarChar, record.SalespersonLastname ?? null)
-                .input('SalespersonFirstname', sql.NVarChar, record.SalespersonFirstname ?? null)
-                .input('DateUpdatedBISynchTasks', sql.DateTime2, record.DateUpdatedBISynchTasks ?? null)
-                .input('DateCreatedBISynchTasks', sql.DateTime2, record.DateCreatedBISynchTasks ?? null)
-                .input('BIDeletedTasks', sql.Bit, record.BIDeletedTasks ?? null)
+                .input('FK_BICompanyID', sql.Int, record.FK_BICompanyID)
+                .input('FK_BIAlternativeID', sql.Int, record.FK_BIAlternativeID)
+                .input('ProjectID', sql.NVarChar, record.ProjectID)
+                .input('ProjectName', sql.NVarChar, record.ProjectName)
+                .input('DateStart', sql.DateTime2, record.DateStart)
+                .input('DateExpiration', sql.DateTime2, record.DateExpiration)
+                .input('TaskSubject', sql.NVarChar, record.TaskSubject)
+                .input('IsScheduled', sql.Bit, record.IsScheduled)
+                .input('TaskType', sql.Int, record.TaskType)
+                .input('TaskTypeName', sql.NVarChar, record.TaskTypeName)
+                .input('TaskStatus', sql.Int, record.TaskStatus)
+                .input('WithSales', sql.Bit, record.WithSales)
+                .input('NextSalesMeeting', sql.Bit, record.NextSalesMeeting)
+                .input('SalespersonLoginName', sql.NVarChar, record.SalespersonLoginName)
+                .input('SalespersonLastname', sql.NVarChar, record.SalespersonLastname)
+                .input('SalespersonFirstname', sql.NVarChar, record.SalespersonFirstname)
+                .input('DateUpdatedBISynchTasks', sql.DateTime2, record.DateUpdatedBISynchTasks)
+                .input('DateCreatedBISynchTasks', sql.DateTime2, record.DateCreatedBISynchTasks)
+                .input('BIDeletedTasks', sql.Bit, record.BIDeletedTasks)
                 .query(`
                     MERGE compusoft_tasks AS target
                     USING (SELECT @PK_BITaskID AS PK_BITaskID) AS source
                     ON target.PK_BITaskID = source.PK_BITaskID
                     WHEN MATCHED THEN
                         UPDATE SET
-                            FK_BICompanyID = @FK_BICompanyID,
-                            FK_BIAlternativeID = @FK_BIAlternativeID,
+                            FK_BICompanyID = ISNULL(@FK_BICompanyID, 0),
+                            FK_BIAlternativeID = ISNULL(@FK_BIAlternativeID, 0),
                             ProjectID = @ProjectID,
                             ProjectName = @ProjectName,
                             DateStart = @DateStart,
                             DateExpiration = @DateExpiration,
                             TaskSubject = @TaskSubject,
-                            IsScheduled = @IsScheduled,
-                            TaskType = @TaskType,
+                            IsScheduled = ISNULL(@IsScheduled, 0),
+                            TaskType = ISNULL(@TaskType, 0),
                             TaskTypeName = @TaskTypeName,
-                            TaskStatus = @TaskStatus,
-                            WithSales = @WithSales,
-                            NextSalesMeeting = @NextSalesMeeting,
+                            TaskStatus = ISNULL(@TaskStatus, 0),
+                            WithSales = ISNULL(@WithSales, 0),
+                            NextSalesMeeting = ISNULL(@NextSalesMeeting, 0),
                             SalespersonLoginName = @SalespersonLoginName,
                             SalespersonLastname = @SalespersonLastname,
                             SalespersonFirstname = @SalespersonFirstname,
                             DateUpdatedBISynchTasks = @DateUpdatedBISynchTasks,
                             DateCreatedBISynchTasks = @DateCreatedBISynchTasks,
-                            BIDeletedTasks = @BIDeletedTasks,
+                            BIDeletedTasks = ISNULL(@BIDeletedTasks, 0),
                             UpdatedAt = GETDATE()
                     WHEN NOT MATCHED THEN
                         INSERT (
@@ -184,11 +184,11 @@ async function upsertRecords(context, pool, records) {
                             DateUpdatedBISynchTasks, DateCreatedBISynchTasks, BIDeletedTasks
                         )
                         VALUES (
-                            @PK_BITaskID, @FK_BICompanyID, @FK_BIAlternativeID, @ProjectID, @ProjectName,
-                            @DateStart, @DateExpiration, @TaskSubject, @IsScheduled, @TaskType,
-                            @TaskTypeName, @TaskStatus, @WithSales, @NextSalesMeeting,
+                            @PK_BITaskID, ISNULL(@FK_BICompanyID, 0), ISNULL(@FK_BIAlternativeID, 0), @ProjectID, @ProjectName,
+                            @DateStart, @DateExpiration, @TaskSubject, ISNULL(@IsScheduled, 0), ISNULL(@TaskType, 0),
+                            @TaskTypeName, ISNULL(@TaskStatus, 0), ISNULL(@WithSales, 0), ISNULL(@NextSalesMeeting, 0),
                             @SalespersonLoginName, @SalespersonLastname, @SalespersonFirstname,
-                            @DateUpdatedBISynchTasks, @DateCreatedBISynchTasks, @BIDeletedTasks
+                            @DateUpdatedBISynchTasks, @DateCreatedBISynchTasks, ISNULL(@BIDeletedTasks, 0)
                         )
                     OUTPUT $action;
                 `);
