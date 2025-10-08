@@ -11,3 +11,7 @@ obj/
 
 # Test files
 test-*.js
+
+# Azure publish settings (contains secrets!)
+*.PublishSettings
+*.publishsettings
