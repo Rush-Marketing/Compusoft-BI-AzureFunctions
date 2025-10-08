@@ -1,0 +1,16 @@
+{
+  "name": "compusoft-azure-functions",
+  "version": "1.0.0",
+  "description": "Azure Functions for Compusoft OData integration",
+  "scripts": {
+    "start": "func start"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.5.0",
+    "axios": "^1.7.9",
+    "mssql": "^11.0.1"
+  },
+  "devDependencies": {
+    "azure-functions-core-tools": "^4.0.0"
+  }
+}

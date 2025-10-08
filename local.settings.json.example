@@ -1,0 +1,20 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+
+    "ODATA_USERNAME": "user",
+    "ODATA_PASSWORD": "YOUR_ODATA_PASSWORD_HERE",
+
+    "DW_SQL_SERVER": "sql-datawarehouse-stg01.database.windows.net",
+    "DW_SQL_DATABASE": "sqldb-datawarehouse-stg",
+    "DW_SQL_USER": "YOUR_DW_SQL_USERNAME",
+    "DW_SQL_PASSWORD": "YOUR_DW_SQL_PASSWORD",
+
+    "LOGGING_SQL_SERVER": "rm-logging.database.windows.net",
+    "LOGGING_SQL_DATABASE": "rm-logging-db",
+    "LOGGING_SQL_USER": "YOUR_LOGGING_SQL_USERNAME",
+    "LOGGING_SQL_PASSWORD": "YOUR_LOGGING_SQL_PASSWORD"
+  }
+}
